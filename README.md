@@ -95,20 +95,37 @@ For MySQL Docker image reference:
 This repository contains the schema and DDL scripts for a normalized property‑leads database. The model captures leads, property details, valuations, rehab estimates, taxes, HOA fees, and various lookup/config tables.
 
 ## Schema Diagram  
+<div align="center">
+  <img src="Assets/DataModel(O).png" width="500">
+</div>
 
+### Note: 
 
+- Property-->Leads 1:1 Relationship
+- Property-->taxes 1:1 Relationship
 
 ## Normalization & Design Decisions  
-- **1NF (Atomicity)**  
-  - All repeating metrics (e.g. list price, Zestimate, ARV, rent estimates) moved into the `valuation` table keyed by `valuation_id` rather than as separate columns in `property`.  
-  - Rehab flags (paint, flooring, foundation, etc.) remain in `rehab` but could be further broken into a config table if requirements grow.  
-- **2NF & 3NF (Eliminate Redundancy)**  
-  - Lookup tables for all descriptive domains (source, selling_reason, reviewer, state, city, flood_zone, property_type, parking_type, layout_type, subdivision, market) to avoid typos and ensure consistency.  
-  - M:N mapping tables (e.g. `hoa` → `hoa_lookup`) separate values/flags from property associations.  
-- **Assumptions**  
-  - Each property has at most one `taxes` record (enforced via unique FK on `property_id`).  
-  - Valuations and rehabs can have multiple records per property to track historical changes or multiple vendor quotes.  
-  - Lookup tables use auto‑increment surrogate keys for simplicity.
+
+### 1NF (Atomicity)  
+- All **repeating groups** (e.g. multiple valuation scenarios, multiple rehab quotes, multiple HOA entries) have been extracted into their own tables (`valuation`, `rehab`, `hoa`) keyed by a surrogate primary key.  
+- Each column in the `property` table holds exactly one atomic value—no JSON arrays or comma‑delimited lists.
+
+### 2NF (Eliminate Partial Dependencies)  
+- Every non‑key attribute in a child table depends on the **whole** primary key (which is always a single surrogate key), so there are no partial dependencies.  
+
+### 3NF (Eliminate Transitive Dependencies)  
+- All descriptive domains that repeat across rows have been moved into **lookup tables** (e.g. `state_lookup`, `city_lookup`, `market_lookup`, `flood_lookup`, `property_type`, `parking_type`, `layout_type`, `subdivision`, `source_lookup`, `selling_reason_lookup`, `final_reviewer_lookup`).  
+- This ensures that changing a label (e.g. correcting “Chicgo” → “Chicago”) happens in exactly one place.  
+- The `hoa` table is a pure M:N bridge between `property` and `hoa_lookup`, keeping the 3NF principle intact.
+
+### Assumptions  
+- **Taxes**: We assume one current tax record per property. If historical or multi‑year tax data is needed, a composite key (`property_id`, `tax_year`) could be added.  
+- **Valuation & Rehab**: Properties may have **multiple records** to represent different vendor quotes or time‑series updates—hence the 1:N relationship.  
+- **Leads**: A strict 1:1 relationship exists between `property` and `leads` (each reviewed property has one corresponding lead record).  
+- **Flags** (`HTW`, `Pool`, `Commercial`, etc.) are stored as `VARCHAR(10)` (“Yes”/“No”/NULL) to match source data; no boolean conversion was applied.  
+- **Typo Handling**: Only basic trimming of whitespace and null/empty checks were done—no fuzzy matching or typo correction, per assignment scope.  
+- **Surrogate Keys**: All tables use auto‑increment integer keys for simplicity, rather than natural keys.  
+
 
 ## Tables & Lookups  
 | Table                   | Description                                       |
@@ -140,12 +157,15 @@ This repository contains the schema and DDL scripts for a normalized property‑
 
 2. **Run the DDL script to create all tables**  
    ```bash
-   mysql -u db_user -p home_db < tables.sql
+   mysql -u db_user -p home_db < DDL_statements.sql
 3. **Verify tables exist**
    ```
    SHOW TABLES;
    DESCRIBE property;
+   
 **Document your ETL logic here:**
+
+**In progress**
 
 - Outline your approach and design
 - Provide instructions and code snippets for running the ETL
