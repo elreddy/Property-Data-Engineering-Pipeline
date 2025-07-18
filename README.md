@@ -89,11 +89,62 @@ For MySQL Docker image reference:
 
 ## Solutions and Instructions (Filed by Candidate)
 
-**Document your database design and solution here:**
+## Property Leads Database
 
-- Explain your schema and any design decisions
-- Give clear instructions on how to run and test your script
+## Overview  
+This repository contains the schema and DDL scripts for a normalized property‑leads database. The model captures leads, property details, valuations, rehab estimates, taxes, HOA fees, and various lookup/config tables.
 
+## Schema Diagram  
+
+
+
+## Normalization & Design Decisions  
+- **1NF (Atomicity)**  
+  - All repeating metrics (e.g. list price, Zestimate, ARV, rent estimates) moved into the `valuation` table keyed by `valuation_id` rather than as separate columns in `property`.  
+  - Rehab flags (paint, flooring, foundation, etc.) remain in `rehab` but could be further broken into a config table if requirements grow.  
+- **2NF & 3NF (Eliminate Redundancy)**  
+  - Lookup tables for all descriptive domains (source, selling_reason, reviewer, state, city, flood_zone, property_type, parking_type, layout_type, subdivision, market) to avoid typos and ensure consistency.  
+  - M:N mapping tables (e.g. `hoa` → `hoa_lookup`) separate values/flags from property associations.  
+- **Assumptions**  
+  - Each property has at most one `taxes` record (enforced via unique FK on `property_id`).  
+  - Valuations and rehabs can have multiple records per property to track historical changes or multiple vendor quotes.  
+  - Lookup tables use auto‑increment surrogate keys for simplicity.
+
+## Tables & Lookups  
+| Table                   | Description                                       |
+|-------------------------|---------------------------------------------------|
+| `source_lookup`         | Valid lead sources (Internal, Auction.com, MLS…)  |
+| `selling_reason_lookup` | Why a property is listed (Downsizing, Investor…)  |
+| `final_reviewer_lookup` | User who reviewed the lead                        |
+| `leads`                 | Marketing leads metadata                          |
+| `state_lookup`          | US state codes                                    |
+| `city_lookup`           | Cities, linked to `state_lookup`                  |
+| `address`               | Street, city, ZIP                                 |
+| `market_lookup`         | Market regions (Chicago, Tampa, Dallas…)          |
+| `flood_lookup`          | Flood zone designations                           |
+| `property_type_lookup`  | SFR, Duplex, Townhouse, etc.                      |
+| `parking_type_lookup`   | Garage, Street, Driveway…                         |
+| `layout_type_lookup`    | Ranch, Colonial, Split…                           |
+| `subdivision_lookup`    | Subdivision names                                 |
+| `property`              | Core property metadata                            |
+| `hoa_lookup`            | HOA fee + flag combinations                       |
+| `hoa`                   | M:N mapping from `property` to HOA entries        |
+| `taxes`                 | Single tax record per property                    |
+| `valuation`             | Key‐value metrics per property valuation          |
+| `rehab`                 | Rehab cost estimates + feature flags              |
+
+## Running & Testing
+
+1. **Connect to MySQL**  
+   Ensure you have a running MySQL instance.
+
+2. **Run the DDL script to create all tables**  
+   ```bash
+   mysql -u db_user -p home_db < tables.sql
+3. **Verify tables exist**
+   ```
+   SHOW TABLES;
+   DESCRIBE property;
 **Document your ETL logic here:**
 
 - Outline your approach and design
