@@ -165,8 +165,31 @@ This repository contains the schema and DDL scripts for a normalized property‑
    
 **Document your ETL logic here:**
 
+## ETL Logic & Scripts
+
 **In progress**
 
-- Outline your approach and design
-- Provide instructions and code snippets for running the ETL
-- List any requirements
+### 1. Overview & Design
+
+We use a simple **ELT** pattern with Python + `mysql-connector-python` to populate our normalized OLTP schema:
+
+1. **Extract**  
+   - Read the source JSON file (`fake_property_data.json`) via `extraction.py`, which returns a list of Python dicts.  
+
+2. **Load Lookup Tables** (`scripts/…_load_lookups.py`)  
+   All lookup loaders operate directly on the JSON data :
+
+   - **`hoa_load_lookups.py`**  
+     - Iterates `record["HOA"]` lists, de‑duplicates `(hoa_value, hoa_flag)` pairs, and upserts into `hoa_lookup`.  
+   - **`property_load_lookups.py`**  
+     - Extracts unique values for `market`, `flood`, `property_type`, `parking`, `layout`, `subdivision`, `state`, `city`, and `address` directly from the JSON records.  
+     - Inserts into each lookup table in dependency order (state → city → address → others).  
+   - **`leads_load_lookups.py`**  
+     - Extracts `Source`, `Selling_Reason`, and `Final_Reviewer` fields from each JSON record, dedupes, and upserts into their lookup tables.
+
+3. **(Next) Load Main Tables**  
+   - Scripts like `load_property.py` and `load_leads.py` will consume the raw JSON (or pandas where heavy transformation is needed) plus lookup maps to insert into `property`, `leads`, `valuation`, `rehab`, and other main tables.
+
+---
+
+
