@@ -21,6 +21,7 @@ CREATE TABLE final_reviewer_lookup (
 -- Leads table
 CREATE TABLE leads (
   lead_id                  INT AUTO_INCREMENT PRIMARY KEY,
+  property_title           VARCHAR(225) NOT NULL UNIQUE,
   reviewed_status          VARCHAR(50)     ,
   most_recent_status       VARCHAR(50)     ,
   source_id                INT             ,
@@ -49,7 +50,7 @@ CREATE TABLE state_lookup (
 -- 2. City lookup
 CREATE TABLE city_lookup (
   city_id    INT            AUTO_INCREMENT PRIMARY KEY,
-  city_name  VARCHAR(100)   NOT NULL,
+  city_name  VARCHAR(100)   NOT NULL UNIQUE,
   state_id   INT            NOT NULL,
   CONSTRAINT fk_city_state
     FOREIGN KEY (state_id) REFERENCES state_lookup(state_id)
@@ -58,7 +59,7 @@ CREATE TABLE city_lookup (
 -- 3. Address table
 CREATE TABLE address (
   address_id      INT            AUTO_INCREMENT PRIMARY KEY,
-  street_address  VARCHAR(255)   NOT NULL,
+  street_address  VARCHAR(255)   NOT NULL UNIQUE,
   city_id         INT            NOT NULL,
   zip             INT            NOT NULL,
   CONSTRAINT fk_address_city
@@ -104,7 +105,7 @@ CREATE TABLE market_lookup (
 -- Property table
 CREATE TABLE property (
   property_id         INT               AUTO_INCREMENT PRIMARY KEY,
-  property_title      VARCHAR(255)      NOT NULL,
+  property_title      VARCHAR(255)      NOT NULL UNIQUE,
   address_id          INT               NOT NULL,
   lead_id             INT               NOT NULL,
   market_id           INT               NULL,
