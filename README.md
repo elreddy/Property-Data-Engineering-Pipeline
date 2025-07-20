@@ -163,33 +163,104 @@ This repository contains the schema and DDL scripts for a normalized property‑
    SHOW TABLES;
    DESCRIBE property;
    
-**Document your ETL logic here:**
+# ETL Logic & Scripts
 
-## ETL Logic & Scripts
+## 1. Overview & Design
 
-**In progress**
+We use a simple ELT pattern with Python + mysql-connector-python to populate our normalized OLTP schema.
 
-### 1. Overview & Design
+### Extract
 
-We use a simple **ELT** pattern with Python + `mysql-connector-python` to populate our normalized OLTP schema:
+- **Extraction Script:** `extraction.py`
+  - Reads the source JSON file (`fake_property_data.json`) and parses it into a list of Python dictionaries.
 
-1. **Extract**  
-   - Read the source JSON file (`fake_property_data.json`) via `extraction.py`, which returns a list of Python dicts.  
+### Load Lookup Tables
 
-2. **Load Lookup Tables** (`scripts/…_load_lookups.py`)  
-   All lookup loaders operate directly on the JSON data :
+- **hoa_load_lookups.py**
+  - Iterates over `HOA` lists, de-duplicates (`hoa_value`, `hoa_flag`) pairs, and upserts them into the `hoa_lookup` table.
 
-   - **`hoa_load_lookups.py`**  
-     - Iterates `record["HOA"]` lists, de‑duplicates `(hoa_value, hoa_flag)` pairs, and upserts into `hoa_lookup`.  
-   - **`property_load_lookups.py`**  
-     - Extracts unique values for `market`, `flood`, `property_type`, `parking`, `layout`, `subdivision`, `state`, `city`, and `address` directly from the JSON records.  
-     - Inserts into each lookup table in dependency order (state → city → address → others).  
-   - **`leads_load_lookups.py`**  
-     - Extracts `Source`, `Selling_Reason`, and `Final_Reviewer` fields from each JSON record, dedupes, and upserts into their lookup tables.
+- **property_load_lookups.py**
+  - Extracts unique values for fields like market, flood, property_type, parking, layout, subdivision, state, city, and address.
+  - Inserts into respective lookup tables in dependency order: `state` → `city` → `address` → remaining lookup domains.
 
-3. **(Next) Load Main Tables**  
-   - Scripts like `load_property.py` and `load_leads.py` will consume the raw JSON (or pandas where heavy transformation is needed) plus lookup maps to insert into `property`, `leads`, `valuation`, `rehab`, and other main tables.
+- **leads_load_lookups.py**
+  - Processes fields such as Source, Selling_Reason, and Final_Reviewer, de-duplicates the values, and loads them into their corresponding lookup tables.
 
----
+### Load Main Tables
 
+- **load_property.py**
+  - Maps lookup values to IDs (market, flood, type, etc.)
+  - Handles `address_id` resolution.
+  - Inserts cleaned records into the `property` table.
+
+- **load_leads.py**
+  - Joins lookup IDs and loads lead information into the `leads` table.
+
+- **load_hoa.py**
+  - Loads property-to-HOA relationships using existing `hoa_lookup_ids`.
+
+- **load_taxes.py**
+  - Extracts and inserts `tax_value` mapped by `property_id`.
+
+- **load_valuation.py**
+  - Inserts metrics such as list_price, arv, zestimate, etc., into the `valuation` table.
+
+- **load_rehab.py**
+  - Inserts rehab-related flags and estimates (e.g., roof_flag, kitchen_flag, underwriting_rehab) into the `rehab` table.
+
+## 2. Execution Flow
+
+Run your ETL steps in the following order:
+
+```bash
+# Step 1: Load lookup tables
+python scripts/main_lookup_tables_load.py
+
+# Step 2: Load main tables
+python scripts/main_tables_load.py
+
+```
+## 3. Requirements
+
+- **Python:** 3.10+
+- **MySQL:** 8+
+
+## 3. Requirements
+
+- **Python:** 3.10+
+- **MySQL:** 8+
+
+### Python Packages
+
+Install the required packages using:
+
+```bash
+pip install -r requirements.txt
+```
+### Additional Requirements
+- A valid and running MySQL instance.
+- Database schema must be pre-created using: DDL_statements.sql.
+
+## 4. Sample Execution Screenshot
+
+<div align="center">
+  <img src="Assets/execution_status.JPG" width="1000">
+</div>
+
+## 5. Log Files
+Sample logs for each phase of the ETL:
+
+- main_lookup_tables_load.log
+- main_tables_load.log
+
+These logs show detailed status of each script, including success messages and any exceptions if encountered.
+
+## 6. Assumptions
+
+- The source JSON (`fake_property_data.json`) may contain empty strings, missing keys, `null`, or `NaN` values.
+- During data ingestion and transformation:
+  - Any empty (`""`), `NaN`, or `null` values from the JSON are **explicitly converted to SQL `NULL`**.
+  - This ensures that the final MySQL tables reflect accurate missing value representation, maintaining data integrity and consistency across the pipeline.
+- Lookup tables will **not** insert `NULL` or empty string values; only valid, distinct entries are added.
+- In main tables, all unresolved fields (such as foreign keys to lookup tables or numerical values like tax, price, etc.) will be inserted as `NULL` if source data is missing or invalid.
 
