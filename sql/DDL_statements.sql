@@ -50,7 +50,7 @@ CREATE TABLE state_lookup (
 -- 2. City lookup
 CREATE TABLE city_lookup (
   city_id    INT            AUTO_INCREMENT PRIMARY KEY,
-  city_name  VARCHAR(100)   NOT NULL UNIQUE,
+  city_name  VARCHAR(100)   NOT NULL,
   state_id   INT            NOT NULL,
   CONSTRAINT fk_city_state
     FOREIGN KEY (state_id) REFERENCES state_lookup(state_id)
