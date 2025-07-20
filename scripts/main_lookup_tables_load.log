@@ -1,0 +1,38 @@
+2025-07-20 23:08:27,526 INFO:Starting HOA lookup table load...
+2025-07-20 23:08:28,339 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:08:28,339 INFO:Loaded data from fake_property_data.json for HOA lookup extraction.
+2025-07-20 23:08:28,567 INFO:Database connection established successfully.
+2025-07-20 23:08:28,568 INFO:Database connection established.
+2025-07-20 23:08:28,588 INFO:Extracted 1002 unique HOA lookup records.
+2025-07-20 23:08:32,651 INFO:Inserted 1002 unique HOA records into hoa_lookup.
+2025-07-20 23:08:32,959 INFO:Database commit successful for HOA lookups.
+2025-07-20 23:08:32,962 INFO:Database connection closed after HOA lookup load.
+2025-07-20 23:08:33,090 INFO:HOA lookups loaded successfully.
+2025-07-20 23:08:33,091 INFO:Starting leads lookup tables load...
+2025-07-20 23:08:33,637 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:08:33,637 INFO:Loaded data from fake_property_data.json for leads lookup extraction.
+2025-07-20 23:08:33,655 INFO:Database connection established successfully.
+2025-07-20 23:08:33,656 INFO:Database connection established.
+2025-07-20 23:08:33,679 INFO:Loaded 8 unique values into source_lookup.
+2025-07-20 23:08:33,992 INFO:Loaded 3 unique values into selling_reason_lookup.
+2025-07-20 23:08:34,255 INFO:Loaded 10 unique values into final_reviewer_lookup.
+2025-07-20 23:08:34,469 INFO:Database connection closed after leads lookup load.
+2025-07-20 23:08:34,521 INFO:Leads lookups loaded successfully.
+2025-07-20 23:08:34,521 INFO:Starting property lookup tables load...
+2025-07-20 23:08:34,963 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:08:34,963 INFO:Loaded data from fake_property_data.json for property lookup extraction.
+2025-07-20 23:08:34,978 INFO:Database connection established successfully.
+2025-07-20 23:08:34,979 INFO:Database connection established.
+2025-07-20 23:08:34,999 INFO:Inserted 7 unique values into market_lookup.
+2025-07-20 23:08:35,240 INFO:Inserted 2 unique values into flood_lookup.
+2025-07-20 23:08:35,602 INFO:Inserted 5 unique values into property_type_lookup.
+2025-07-20 23:08:35,824 INFO:Inserted 3 unique values into parking_type_lookup.
+2025-07-20 23:08:36,071 INFO:Inserted 3 unique values into layout_type_lookup.
+2025-07-20 23:08:37,067 INFO:Inserted 195 unique values into subdivision_lookup.
+2025-07-20 23:08:37,442 INFO:Inserted 59 unique values into state_lookup.
+2025-07-20 23:08:37,625 INFO:Fetched state_lookup mapping for city dependency.
+2025-07-20 23:09:01,088 INFO:Inserted 9921 unique cities.
+2025-07-20 23:09:01,376 INFO:Fetched city_lookup mapping for address dependency.
+2025-07-20 23:09:29,224 INFO:Inserted 10000 unique addresses.
+2025-07-20 23:09:29,476 INFO:Database connection closed after property lookup load.
+2025-07-20 23:09:29,536 INFO:Property lookups loaded successfully.

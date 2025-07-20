@@ -14,14 +14,24 @@ LOOKUPS = {
 }
 
 def load_property_lookups(file_path):
+    """
+    Loads unique lookup values for property-related tables (market, flood, type, etc.)
+    from a JSON file and inserts them into their respective lookup tables.
+    Handles dependencies for state, city, and address tables.
+    """
     try:
+        # Extract data from JSON file
         data = extract_json(file_path)
+        logging.info(f"Loaded data from {file_path} for property lookup extraction.")
+
+        # Establish database connection
         conn = get_connection()
         if conn is None:
             logging.error("Database connection is None.")
             print("Error: Could not connect to the database.")
             return
         cursor = conn.cursor()
+        logging.info("Database connection established.")
 
         # 1. Simple lookups (no dependencies)
         for field, (table, column) in LOOKUPS.items():
@@ -46,6 +56,7 @@ def load_property_lookups(file_path):
             cursor.execute("SELECT state_id, state_code FROM state_lookup")
             for sid, code in cursor.fetchall():
                 state_map[code] = sid
+            logging.info("Fetched state_lookup mapping for city dependency.")
         except Exception as e:
             logging.error(f"Error fetching state_lookup: {e}")
             print(f"Error fetching state_lookup: {e}")
@@ -79,6 +90,7 @@ def load_property_lookups(file_path):
             cursor.execute("SELECT city_id, city_name, state_id FROM city_lookup")
             for cid, cname, sid in cursor.fetchall():
                 city_map[(cname, sid)] = cid
+            logging.info("Fetched city_lookup mapping for address dependency.")
         except Exception as e:
             logging.error(f"Error fetching city_lookup: {e}")
             print(f"Error fetching city_lookup: {e}")
@@ -111,8 +123,10 @@ def load_property_lookups(file_path):
         logging.info(f"Inserted {len(address_set)} unique addresses.")
         conn.commit()
 
+        # Close database resources
         cursor.close()
         conn.close()
+        logging.info("Database connection closed after property lookup load.")
     except Exception as e:
         logging.error(f"Failed to load property lookups: {e}")
         print("Error: Could not load property lookups. Check logs for details.")

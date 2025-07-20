@@ -5,6 +5,9 @@ import logging
 import numpy as np
 
 def get_lookup_df(cursor, table, id_col, value_col):
+    """
+    Helper function to fetch lookup tables from the database and return as DataFrame.
+    """
     try:
         cursor.execute(f"SELECT {id_col}, {value_col} FROM {table}")
         rows = cursor.fetchall()
@@ -175,23 +178,29 @@ def load_property_data(file_path):
                 'School_Average'       
             ]
             values = df[insert_cols]
+            # Prepare column names for SQL insert
             columns = ', '.join(insert_cols)
+            # Replace empty strings and 'Null' with None for SQL compatibility
             values = values.replace('', None).replace('Null', None)
             
             insert_count = 0
+            # Iterate over each row to insert into the property table
             for value in values.iterrows():
+                # Ensure all NaN, np.nan, or blank values are set to None for SQL
                 row = [val if not (pd.isna(val) or val is np.nan or val==' ') else None for val in value[1]]
                 try:
                     cursor.execute(
                         f"INSERT IGNORE INTO property ({columns}) VALUES ({', '.join(['%s'] * len(insert_cols))})", row
                     )
                     insert_count += 1
+                    logging.debug(f"Inserted row into property: {row}")  # Log each successful insert at debug level
                 except Exception as e:
                     logging.error(f"Error inserting row into property: {e}")
                     print(f"Error inserting into property: {e}")
 
-            logging.info(f"Inserted {insert_count} rows into property table.")
+            logging.info(f"Inserted {insert_count} rows into property table.")  # Log total successful inserts
             conn.commit()
+            logging.info("Database commit successful for property inserts.")  # Log DB commit
         except Exception as e:
             logging.error(f"Error during property insert: {e}")
             print("Error: Could not insert property data.")

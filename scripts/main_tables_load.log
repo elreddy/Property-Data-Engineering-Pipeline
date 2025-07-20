@@ -1,0 +1,89 @@
+2025-07-20 23:10:12,097 INFO:Starting main tables load with file: fake_property_data.json
+2025-07-20 23:10:12,284 INFO:Database connection established successfully.
+2025-07-20 23:10:12,285 INFO:Database connection established.
+2025-07-20 23:10:12,896 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:10:13,079 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:10:13,082 INFO:Loaded 8 rows from source_lookup
+2025-07-20 23:10:13,085 INFO:Loaded 3 rows from selling_reason_lookup
+2025-07-20 23:10:13,087 INFO:Loaded 10 rows from final_reviewer_lookup
+2025-07-20 23:10:13,325 INFO:Successfully mapped lookup values to DataFrame.
+2025-07-20 23:10:48,757 INFO:Inserted 10000 rows into leads table.
+2025-07-20 23:10:49,016 INFO:Database commit successful.
+2025-07-20 23:10:49,019 INFO:Database connection closed successfully.
+2025-07-20 23:10:49,081 INFO:Lead data loaded successfully.
+2025-07-20 23:10:49,134 INFO:Database connection established successfully.
+2025-07-20 23:10:49,836 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:10:49,955 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:10:49,957 INFO:Loaded 7 rows from market_lookup
+2025-07-20 23:10:49,959 INFO:Loaded 2 rows from flood_lookup
+2025-07-20 23:10:49,962 INFO:Loaded 5 rows from property_type_lookup
+2025-07-20 23:10:49,964 INFO:Loaded 3 rows from parking_type_lookup
+2025-07-20 23:10:49,966 INFO:Loaded 3 rows from layout_type_lookup
+2025-07-20 23:10:49,968 INFO:Loaded 195 rows from subdivision_lookup
+2025-07-20 23:10:49,970 INFO:Loaded 59 rows from state_lookup
+2025-07-20 23:10:49,971 INFO:Lookup tables loaded successfully.
+2025-07-20 23:10:50,033 INFO:Loaded 10000 rows from leads table
+2025-07-20 23:10:50,077 INFO:Loaded 9921 rows from city_lookup table
+2025-07-20 23:10:50,161 INFO:Loaded 10000 rows from address table
+2025-07-20 23:10:50,580 INFO:Successfully merged address, city, and state data.
+2025-07-20 23:10:50,651 INFO:Successfully mapped property titles to leads.
+2025-07-20 23:10:50,700 INFO:Successfully mapped market names to DataFrame.
+2025-07-20 23:10:50,755 INFO:Successfully mapped flood zones to DataFrame.
+2025-07-20 23:10:50,808 INFO:Successfully mapped property types to DataFrame.
+2025-07-20 23:10:50,852 INFO:Successfully mapped parking types to DataFrame.
+2025-07-20 23:10:50,906 INFO:Successfully mapped layout types to DataFrame.
+2025-07-20 23:10:50,963 INFO:Successfully mapped subdivisions to DataFrame.
+2025-07-20 23:11:45,805 INFO:Inserted 10000 rows into property table.
+2025-07-20 23:11:46,135 INFO:Database commit successful for property inserts.
+2025-07-20 23:11:46,136 INFO:Database connection closed successfully.
+2025-07-20 23:11:46,187 INFO:Property data loaded successfully.
+2025-07-20 23:11:46,219 INFO:Database connection established successfully.
+2025-07-20 23:11:46,220 INFO:Database connection established.
+2025-07-20 23:11:47,160 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:11:47,394 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:11:47,461 INFO:Fetched 9018 property records from database.
+2025-07-20 23:11:47,514 INFO:Successfully merged property data with taxes DataFrame.
+2025-07-20 23:12:11,828 INFO:Inserted 10000 rows into taxes table.
+2025-07-20 23:12:12,405 INFO:Database commit successful for taxes inserts.
+2025-07-20 23:12:12,405 INFO:Database cursor closed.
+2025-07-20 23:12:12,408 INFO:Database connection closed.
+2025-07-20 23:12:12,569 INFO:Taxes data loaded successfully.
+2025-07-20 23:12:12,628 INFO:Database connection established successfully.
+2025-07-20 23:12:12,630 INFO:Database connection established.
+2025-07-20 23:12:13,078 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:12:13,078 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:12:13,119 INFO:Loaded 9018 rows from property table
+2025-07-20 23:12:13,231 INFO:Rehab data extracted with 20024 records.
+2025-07-20 23:12:13,266 INFO:Successfully merged property data with rehab DataFrame.
+2025-07-20 23:12:58,064 INFO:Inserted 18091 rows into rehab table.
+2025-07-20 23:12:58,475 INFO:Database commit successful for rehab inserts.
+2025-07-20 23:12:58,475 INFO:Database cursor closed.
+2025-07-20 23:12:58,476 INFO:Database connection closed.
+2025-07-20 23:12:58,587 INFO:Rehab data loaded successfully.
+2025-07-20 23:12:58,612 INFO:Database connection established successfully.
+2025-07-20 23:12:59,046 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:12:59,046 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:12:59,092 INFO:Loaded 9018 rows from property table
+2025-07-20 23:12:59,231 INFO:Valuation data extracted with 24705 records.
+2025-07-20 23:12:59,247 INFO:Successfully merged property data with valuation DataFrame.
+2025-07-20 23:12:59,576 INFO:Merged valuation data exported to valuation_data.csv.
+2025-07-20 23:13:59,008 INFO:Inserted 23827 rows into valuation table.
+2025-07-20 23:14:00,468 INFO:Database commit successful for valuation inserts.
+2025-07-20 23:14:00,468 INFO:Database cursor closed.
+2025-07-20 23:14:00,470 INFO:Database connection closed.
+2025-07-20 23:14:00,587 INFO:Valuation data loaded successfully.
+2025-07-20 23:14:00,654 INFO:Database connection established successfully.
+2025-07-20 23:14:00,657 INFO:Database connection established.
+2025-07-20 23:14:01,097 INFO:Data extracted successfully from fake_property_data.json.
+2025-07-20 23:14:01,296 INFO:Loaded 10000 records from fake_property_data.json
+2025-07-20 23:14:01,356 INFO:Fetched 9018 property records from database.
+2025-07-20 23:14:01,361 INFO:Fetched 1002 HOA lookup records from database.
+2025-07-20 23:14:01,381 INFO:Prepared HOA DataFrame with 9993 rows.
+2025-07-20 23:14:01,391 INFO:Merged property data with HOA DataFrame.
+2025-07-20 23:14:01,401 INFO:Merged property data with HOA lookup DataFrame.
+2025-07-20 23:14:36,371 INFO:Inserted 12001 rows into hoa table.
+2025-07-20 23:14:37,152 INFO:Database commit successful.
+2025-07-20 23:14:37,152 INFO:Database cursor closed.
+2025-07-20 23:14:37,153 INFO:Database connection closed.
+2025-07-20 23:14:37,260 INFO:HOA data loaded successfully.
+2025-07-20 23:14:37,260 INFO:Main tables load completed successfully.
