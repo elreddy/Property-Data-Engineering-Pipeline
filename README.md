@@ -96,7 +96,7 @@ This repository contains the schema and DDL scripts for a normalized property‑
 
 ## Schema Diagram  
 <div align="center">
-  <img src="Assets/DataModel(O).png" width="500">
+  <img src="Assets/DataModel.png" width="500">
 </div>
 
 ### Note: 
