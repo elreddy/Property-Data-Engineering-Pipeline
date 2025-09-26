@@ -51,11 +51,11 @@ property-data-pipeline/
 │   ├── *_load_lookups.py     # Lookup table population scripts
 │   ├── load_*.py             # Main table data loading modules
 │   └── main_*.py             # Pipeline orchestration scripts
+    └── .log                 # Execution logs and monitoring
 ├── sql/                       # Database schema definitions
 │   └── DDL_statements.sql    # Complete table creation scripts
-├── data/                      # Sample data and documentation
-├── Assets/                    # Documentation images
-└── logs/                      # Execution logs and monitoring
+├── Assets                  # Documentation images
+
 ```
 
 ## ⚡ Quick Start
@@ -71,8 +71,8 @@ property-data-pipeline/
 ### 1. Environment Setup
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/property-data-pipeline.git
-cd property-data-pipeline
+git clone https://github.com/elreddy/Property-Data-Engineering-Pipeline.git
+cd Property-Data-Engineering-Pipeline
 
 # Install Python dependencies
 pip install -r requirements.txt
@@ -181,30 +181,12 @@ The ETL system follows a **two-phase approach** ensuring data integrity and prop
 - **Documentation**: Clear setup instructions and architecture documentation
 - **Version Control**: Professional Git workflow and repository organization
 
-## 🔮 Future Enhancements
-
-- [ ] **Data Pipeline Orchestration**: Apache Airflow integration
-- [ ] **Real-time Processing**: Streaming ETL with Apache Kafka
-- [ ] **Cloud Migration**: AWS/GCP deployment with managed databases
-- [ ] **API Development**: REST endpoints for data access
-- [ ] **Analytics Layer**: Data warehouse and reporting capabilities
-- [ ] **Monitoring**: Prometheus/Grafana observability stack
-
-## 🤝 Contributing
-
-Interested in contributing? This project welcomes:
-- Performance optimizations
-- Additional data source integrations
-- Enhanced error handling
-- Documentation improvements
-
 ## 📬 Connect & Collaborate
 
 I'm always interested in discussing data engineering challenges and opportunities!
 
-- **LinkedIn**: [Your LinkedIn Profile]
-- **Email**: [your.email@example.com]
-- **Portfolio**: [Your Portfolio Website]
+- 💼 [LinkedIn](https://www.linkedin.com/in/eegapuri-lokeshwar-reddy-281327308)
+- 📧 elokesh4292@gmail.com
 
 ---
 
