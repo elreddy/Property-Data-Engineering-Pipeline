@@ -137,7 +137,7 @@ The ETL system follows a **two-phase approach** ensuring data integrity and prop
 [INFO] Database commit successful
 ```
 <div align="center">
-  <img src="Assets/execution_status.JPG" width="600" alt="Execution Status">
+  <img src="Assets/execution_status.JPG" width="1000" alt="Execution Status">
 </div>
 
 ## 🏗️ Database Schema Highlights
